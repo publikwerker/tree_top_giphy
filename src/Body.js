@@ -7,7 +7,7 @@ export default class Body extends React.Component {
     this.state = {
       query: '',
       display: false,
-      data: []
+      returnedGifs: []
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -15,14 +15,15 @@ export default class Body extends React.Component {
   }
 
   sendFetch(){
-    return fetch(`${API_BASE_URL}${this.state.query}`)
+    return fetch(`${API_BASE_URL}${this.state.query}&limit=5`)
       .then(function(response){
         return response.json();
       })
-      .then(function(myJson){
-        let list = JSON.stringify(myJson);
-        return list;
-      })
+  }
+
+  setData(array){
+    console.log(array);
+    this.setState({returnedGifs: array})
   }
 
   handleChange(e) {
@@ -31,22 +32,39 @@ export default class Body extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    let array = [];
     this.setState({display:true});
     this.sendFetch()
       .then(res=>{
-        let {data} = res;
-        console.log(res);
-        console.log(data);
-   })
+        console.log(res.data);
+        res.data.forEach(function(gif){
+          array.push(gif)
+        });
+        console.log(array);
+        this.setState({returnedGifs: array});
+    })
   }
 
   render(){
+    let displayBlock;
+    let gifs =[];
+    this.state.returnedGifs.forEach(function(element){
+      gifs.push(<p>{element.slug}</p>)
+    })
+    if (this.state.display){
+      displayBlock=<div>
+          <h2>wow!</h2>
+          {gifs}
+        </div>
+    } else {
+      displayBlock=<h2>what will we find?</h2>
+    }
     return(
       <div>
         <form
           onSubmit={this.handleSubmit}>
           <label>
-            Search the Giphy-verse!
+            Search the Giphy-verse!<br />
             <input 
               type="text"
               name="query"
@@ -59,6 +77,7 @@ export default class Body extends React.Component {
             value="GO!"
             />
         </form>
+        {displayBlock}
       </div>
     )
   }
