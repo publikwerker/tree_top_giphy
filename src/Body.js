@@ -14,6 +14,8 @@ export default class Body extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  //this fetches the list, 
+  //for now it's hardcoded to return only five
   sendFetch(){
     return fetch(`${API_BASE_URL}${this.state.query}&limit=5`)
       .then(function(response){
@@ -21,15 +23,13 @@ export default class Body extends React.Component {
       })
   }
 
-  setData(array){
-    console.log(array);
-    this.setState({returnedGifs: array})
-  }
-
+  //this sets any change in the search box to state
   handleChange(e) {
     this.setState({query: e.target.value});
   }
 
+  //on submit, changes state.display to true to show
+  //display box, calls fetch, and sets results to state 
   handleSubmit(e) {
     e.preventDefault();
     let array = [];
@@ -48,9 +48,21 @@ export default class Body extends React.Component {
   render(){
     let displayBlock;
     let gifs =[];
+    // building array on DOM
     this.state.returnedGifs.forEach(function(element){
-      gifs.push(<p>{element.slug}</p>)
+      gifs.push(<div key={element.id}>
+          <p>{element.title}</p>
+          <a href={element.url}>
+            <img 
+              src={element.images.original.url}
+              alt={element.title}/>
+          </a>
+        </div>
+      )
     })
+
+    //display block is conditional,
+    //depending on state.display
     if (this.state.display){
       displayBlock=<div>
           <h2>wow!</h2>
@@ -59,6 +71,7 @@ export default class Body extends React.Component {
     } else {
       displayBlock=<h2>what will we find?</h2>
     }
+
     return(
       <div>
         <form
