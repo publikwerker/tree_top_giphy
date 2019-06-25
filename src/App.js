@@ -1,4 +1,5 @@
 import React from 'react';
+import Body from './Body';
 
 function App() {
   return (
@@ -6,6 +7,7 @@ function App() {
       <header className="header">
        <h1>Tree Top Giphy GO!</h1>
       </header>
+      <Body />
     </div>
   );
 }
