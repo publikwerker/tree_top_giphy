@@ -11,4 +11,4 @@ This is a quick app to search giphy api and return gifs.
   I'm a visual person, so it's important for me to see what's happening on the DOM first.
 6. Once the search field was there, and I could capture the value and set it to state, I made a fetch function to call the infor from the API.
 7. The next step was to save the results to state, so I could build an array to display the gifs on the DOM
-8. That's about as far as I got. If I had more time, I would break the body components into smaller components, add "clear" and "next" buttons. I'd also fix the CSS on gifs to create for a flex grid.
+8. That's about as far as I got. If I had more time, I would break the body components into smaller components and change some of the <div> tags into <section>, etc. I would also add "clear" and "next" buttons, and I'd fix the CSS on gifs to create for a flex grid. 
