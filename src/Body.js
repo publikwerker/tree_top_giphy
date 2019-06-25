@@ -1,4 +1,5 @@
 import React from 'react';
+import {API_BASE_URL} from './config'
 
 export default class Body extends React.Component {
   constructor(props){
@@ -6,11 +7,22 @@ export default class Body extends React.Component {
     this.state = {
       query: '',
       display: false,
-      returnedGifs: []
+      data: []
     }
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  sendFetch(){
+    return fetch(`${API_BASE_URL}${this.state.query}`)
+      .then(function(response){
+        return response.json();
+      })
+      .then(function(myJson){
+        let list = JSON.stringify(myJson);
+        return list;
+      })
   }
 
   handleChange(e) {
@@ -18,8 +30,14 @@ export default class Body extends React.Component {
   }
 
   handleSubmit(e) {
-    console.log(`the query: ${this.state.query}`);
     e.preventDefault();
+    this.setState({display:true});
+    this.sendFetch()
+      .then(res=>{
+        let {data} = res;
+        console.log(res);
+        console.log(data);
+   })
   }
 
   render(){
